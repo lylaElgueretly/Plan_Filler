@@ -8,7 +8,7 @@ from docx import Document
 
 st.set_page_config(page_title="Plan Filler", layout="wide")
 
-st.title("📘 Plan Filler – Weekly Lesson Plan Generator")
+st.title("Plan Filler – Weekly Lesson Plan Generator")
 
 st.markdown(
     "1️⃣ Upload your **Word lesson plan template**  \n"
