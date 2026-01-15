@@ -12,8 +12,8 @@ st.title("Plan Filler – Weekly Lesson Plan Generator")
 
 st.markdown(
     "1. Upload your **Word lesson plan template**  \n"
-    "2️. Paste the **lesson plan JSON**  \n"
-    "3️. Download the populated document"
+    "2.Paste the **lesson plan JSON**  \n"
+    "3.Download the populated document"
 )
 
 # ==================================================
