@@ -1,5 +1,5 @@
 # PLAN FILLER – WEEKLY LESSON PLAN GENERATOR
-# JSON → WORD (TEMPLATE UPLOAD SUPPORTED)
+# FINAL STABLE VERSION – TEMPLATE UPLOAD ENABLED
 
 import streamlit as st
 import json
@@ -17,7 +17,7 @@ st.markdown(
 )
 
 # ==================================================
-# CORRECT + FINAL JSON SKELETON (MATCHES TEMPLATE)
+# FINAL JSON SKELETON (MATCHES WORD TEMPLATE EXACTLY)
 # ==================================================
 
 JSON_SKELETON = {
@@ -128,7 +128,7 @@ json_input = st.text_area(
 )
 
 # ==================================================
-# HELPER FUNCTIONS
+# HELPERS
 # ==================================================
 
 def flatten_json(data):
@@ -144,17 +144,17 @@ def flatten_json(data):
 
 def replace_placeholders(doc, replacements):
     for paragraph in doc.paragraphs:
-        for key, value in replacements.items():
-            if key in paragraph.text:
-                paragraph.text = paragraph.text.replace(key, value)
+        for k, v in replacements.items():
+            if k in paragraph.text:
+                paragraph.text = paragraph.text.replace(k, v)
 
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
                 for paragraph in cell.paragraphs:
-                    for key, value in replacements.items():
-                        if key in paragraph.text:
-                            paragraph.text = paragraph.text.replace(key, value)
+                    for k, v in replacements.items():
+                        if k in paragraph.text:
+                            paragraph.text = paragraph.text.replace(k, v)
 
 # ==================================================
 # GENERATE DOCUMENT
