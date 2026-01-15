@@ -71,39 +71,103 @@ st.markdown("""
 st.markdown('<h1 class="main-title">📚 Plan Filler: Weekly Lesson Plan Generator</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Upload your Word template or use the default template, then paste the JSON of your weekly lesson plan. Click Generate Lesson Plan to get a ready-to-use Word document.</p>', unsafe_allow_html=True)
 
-# JSON skeleton for reference
+# JSON skeleton for reference - updated to match Word template placeholders
 JSON_SKELETON = '''{
   "Teacher": "Teacher Name Here",
   "WeekNumber": "Week Number Here",
   "YearClass": "Year/Class Here (e.g., 7)",
   "Subject": "Subject Here (e.g., English)",
   "UnitTopic": "Unit/Topic Here (e.g., Adventure Stories)",
-  
+
   "Schedule": {
     "Day1": "Sunday - Class 1 (Single)",
-    "Day2": "Monday - Class 2 (Single)", 
+    "Day2": "Monday - Class 2 (Single)",
     "Day3": "Tuesday/Thursday - Class 3 (Double) - 7B(Tuesday) / 7A(Thursday)",
     "Day4": "Wednesday - Class 4 (Double)",
     "Day5": "Tuesday/Thursday - Class 5 (Single) - 7A(Tuesday) / 7B(Thursday)"
   },
-  
+
   "LearningObjective": {
-    "Class1_LearningObjective": "Objective for Sunday class",
-    "Class2_LearningObjective": "Objective for Monday class", 
-    "Class3_LearningObjective": "Objective for Tuesday/Thursday double class",
-    "Class4_LearningObjective": "Objective for Wednesday class",
-    "Class5_LearningObjective": "Objective for Tuesday/Thursday single class"
+    "Class1_LearningObjective": "",
+    "Class2_LearningObjective": "",
+    "Class3_LearningObjective": "",
+    "Class4_LearningObjective": "",
+    "Class5_LearningObjective": ""
   },
-  
+
   "SuccessCriteria": {
-    "Class1_SuccessCriteria": "What students should achieve on Sunday",
-    "Class2_SuccessCriteria": "What students should achieve on Monday",
-    "Class3_SuccessCriteria": "What students should achieve in Tuesday/Thursday double class",
-    "Class4_SuccessCriteria": "What students should achieve on Wednesday",
-    "Class5_SuccessCriteria": "What students should achieve in Tuesday/Thursday single class"
+    "Class1_SuccessCriteria": "",
+    "Class2_SuccessCriteria": "",
+    "Class3_SuccessCriteria": "",
+    "Class4_SuccessCriteria": "",
+    "Class5_SuccessCriteria": ""
+  },
+
+  "KeyVocabulary": {
+    "Class1_Vocabulary": "",
+    "Class2_Vocabulary": "",
+    "Class3_Vocabulary": "",
+    "Class4_Vocabulary": "",
+    "Class5_Vocabulary": ""
+  },
+
+  "KeyQuestions": {
+    "Class1_KeyQuestions": "",
+    "Class2_KeyQuestions": "",
+    "Class3_KeyQuestions": "",
+    "Class4_KeyQuestions": "",
+    "Class5_KeyQuestions": ""
+  },
+
+  "StarterActivity": {
+    "Class1_StarterActivity": "",
+    "Class2_StarterActivity": "",
+    "Class3_StarterActivity": "",
+    "Class4_StarterActivity": "",
+    "Class5_StarterActivity": ""
+  },
+
+  "TeacherInputMainTeaching": {
+    "Class1_TeacherInputMainTeaching": "",
+    "Class2_TeacherInputMainTeaching": "",
+    "Class3_TeacherInputMainTeaching": "",
+    "Class4_TeacherInputMainTeaching": "",
+    "Class5_TeacherInputMainTeaching": ""
+  },
+
+  "DifferentiatedActivities": {
+    "Class1_DifferentiatedActivities": "",
+    "Class2_DifferentiatedActivities": "",
+    "Class3_DifferentiatedActivities": "",
+    "Class4_DifferentiatedActivities": "",
+    "Class5_DifferentiatedActivities": ""
+  },
+
+  "Plenary": {
+    "Class1_Plenary": "",
+    "Class2_Plenary": "",
+    "Class3_Plenary": "",
+    "Class4_Plenary": "",
+    "Class5_Plenary": ""
+  },
+
+  "Reflection": {
+    "Class1_Reflection": "",
+    "Class2_Reflection": "",
+    "Class3_Reflection": "",
+    "Class4_Reflection": "",
+    "Class5_Reflection": ""
+  },
+
+  "Homework": {
+    "Class1_Homework": "",
+    "Class2_Homework": "",
+    "Class3_Homework": "",
+    "Class4_Homework": "",
+    "Class5_Homework": ""
   }
-  // ... and all other sections
 }'''
+
 
 def create_default_template():
     """Create a default WPLT template"""
