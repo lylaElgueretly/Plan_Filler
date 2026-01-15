@@ -11,9 +11,9 @@ st.set_page_config(page_title="Plan Filler", layout="wide")
 st.title("Plan Filler – Weekly Lesson Plan Generator")
 
 st.markdown(
-    "1 Upload your **Word lesson plan template**  \n"
-    "2️ Paste the **lesson plan JSON**  \n"
-    "3️ Download the populated document"
+    "1. Upload your **Word lesson plan template**  \n"
+    "2️. Paste the **lesson plan JSON**  \n"
+    "3️. Download the populated document"
 )
 
 # ==================================================
