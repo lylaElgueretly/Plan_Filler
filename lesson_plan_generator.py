@@ -73,19 +73,11 @@ st.markdown('<p class="subtitle">Upload your Word template or use the default te
 
 # JSON skeleton for reference - updated to match Word template placeholders
 JSON_SKELETON = '''{
-  "Teacher": "Teacher Name Here",
-  "WeekNumber": "Week Number Here",
-  "YearClass": "Year/Class Here (e.g., 7)",
-  "Subject": "Subject Here (e.g., English)",
-  "UnitTopic": "Unit/Topic Here (e.g., Adventure Stories)",
-
-  "Schedule": {
-    "Day1": "Sunday - Class 1 (Single)",
-    "Day2": "Monday - Class 2 (Single)",
-    "Day3": "Tuesday/Thursday - Class 3 (Double) - 7B(Tuesday) / 7A(Thursday)",
-    "Day4": "Wednesday - Class 4 (Double)",
-    "Day5": "Tuesday/Thursday - Class 5 (Single) - 7A(Tuesday) / 7B(Thursday)"
-  },
+  "Teacher": "",
+  "WeekNumber": "",
+  "YearClass": "",
+  "Subject": "",
+  "UnitTopic": "",
 
   "LearningObjective": {
     "Class1_LearningObjective": "",
@@ -127,12 +119,12 @@ JSON_SKELETON = '''{
     "Class5_StarterActivity": ""
   },
 
-  "TeacherInputMainTeaching": {
-    "Class1_TeacherInputMainTeaching": "",
-    "Class2_TeacherInputMainTeaching": "",
-    "Class3_TeacherInputMainTeaching": "",
-    "Class4_TeacherInputMainTeaching": "",
-    "Class5_TeacherInputMainTeaching": ""
+  "MainTeaching": {
+    "Class1_MainTeaching": "",
+    "Class2_MainTeaching": "",
+    "Class3_MainTeaching": "",
+    "Class4_MainTeaching": "",
+    "Class5_MainTeaching": ""
   },
 
   "DifferentiatedActivities": {
@@ -166,7 +158,7 @@ JSON_SKELETON = '''{
     "Class4_Homework": "",
     "Class5_Homework": ""
   }
-}'''
+}
 
 
 def create_default_template():
