@@ -1,28 +1,26 @@
-# WEEKLY LESSON PLAN GENERATOR
-# JSON → WORD (WITH TEMPLATE UPLOAD)
-# PLACEHOLDERS MATCH WORD TEMPLATE EXACTLY
+# PLAN FILLER – WEEKLY LESSON PLAN GENERATOR
+# JSON → WORD (TEMPLATE UPLOAD SUPPORTED)
 
 import streamlit as st
 import json
-import tempfile
-import os
+import io
 from docx import Document
 
-st.set_page_config(page_title="Weekly Lesson Plan Generator", layout="wide")
+st.set_page_config(page_title="Plan Filler", layout="wide")
 
-st.title("📘 Weekly Lesson Plan Generator")
+st.title("📘 Plan Filler – Weekly Lesson Plan Generator")
 
-st.write(
-    "1️⃣ Upload the **Word lesson plan template**  
-     2️⃣ Paste the **lesson plan JSON**  
-     3️⃣ Download the populated document"
+st.markdown(
+    "1️⃣ Upload your **Word lesson plan template**  \n"
+    "2️⃣ Paste the **lesson plan JSON**  \n"
+    "3️⃣ Download the populated document"
 )
 
-# =========================
-# CORRECT JSON SKELETON
-# =========================
+# ==================================================
+# CORRECT + FINAL JSON SKELETON (MATCHES TEMPLATE)
+# ==================================================
 
-CORRECT_JSON_TEMPLATE = {
+JSON_SKELETON = {
     "Teacher": "",
     "WeekNumber": "",
     "YearClass": "",
@@ -110,93 +108,86 @@ CORRECT_JSON_TEMPLATE = {
     }
 }
 
-# =========================
+# ==================================================
 # TEMPLATE UPLOAD
-# =========================
+# ==================================================
 
-uploaded_template = st.file_uploader(
-    "📤 Upload Word Lesson Plan Template (.docx)",
+uploaded_file = st.file_uploader(
+    "📤 Upload Word Template (.docx)",
     type=["docx"]
 )
 
-# =========================
+# ==================================================
 # JSON INPUT
-# =========================
+# ==================================================
 
 json_input = st.text_area(
-    "📄 Lesson Plan JSON (do NOT rename keys)",
-    value=json.dumps(CORRECT_JSON_TEMPLATE, indent=2),
-    height=600
+    "📄 Lesson Plan JSON",
+    value=json.dumps(JSON_SKELETON, indent=2),
+    height=550
 )
 
-# =========================
-# HELPERS
-# =========================
+# ==================================================
+# HELPER FUNCTIONS
+# ==================================================
 
 def flatten_json(data):
     flat = {}
     for key, value in data.items():
         if isinstance(value, dict):
-            for sub_key, sub_value in value.items():
-                flat[sub_key] = str(sub_value)
+            for subkey, subvalue in value.items():
+                flat[f"{{{{{subkey}}}}}"] = str(subvalue)
         else:
-            flat[key] = str(value)
+            flat[f"{{{{{key}}}}}"] = str(value)
     return flat
 
 
-def replace_placeholders(document, replacements):
-    # Paragraphs
-    for paragraph in document.paragraphs:
+def replace_placeholders(doc, replacements):
+    for paragraph in doc.paragraphs:
         for key, value in replacements.items():
-            placeholder = f"{{{{{key}}}}}"
-            if placeholder in paragraph.text:
-                paragraph.text = paragraph.text.replace(placeholder, value)
+            if key in paragraph.text:
+                paragraph.text = paragraph.text.replace(key, value)
 
-    # Tables
-    for table in document.tables:
+    for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
-                for key, value in replacements.items():
-                    placeholder = f"{{{{{key}}}}}"
-                    if placeholder in cell.text:
-                        cell.text = cell.text.replace(placeholder, value)
+                for paragraph in cell.paragraphs:
+                    for key, value in replacements.items():
+                        if key in paragraph.text:
+                            paragraph.text = paragraph.text.replace(key, value)
 
-# =========================
+# ==================================================
 # GENERATE DOCUMENT
-# =========================
+# ==================================================
 
-if st.button("📄 Generate Lesson Plan"):
-    if not uploaded_template:
-        st.error("Please upload the Word template.")
-        st.stop()
+if st.button("🚀 Generate Lesson Plan", use_container_width=True):
+    if not uploaded_file:
+        st.error("Please upload a Word template.")
+    else:
+        try:
+            data = json.loads(json_input)
+            replacements = flatten_json(data)
 
-    try:
-        lesson_data = json.loads(json_input)
-    except json.JSONDecodeError as e:
-        st.error(f"Invalid JSON: {e}")
-        st.stop()
+            doc = Document(uploaded_file)
+            replace_placeholders(doc, replacements)
 
-    # Save uploaded template temporarily
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as tmp:
-        tmp.write(uploaded_template.read())
-        template_path = tmp.name
+            buffer = io.BytesIO()
+            doc.save(buffer)
+            buffer.seek(0)
 
-    document = Document(template_path)
-    flat_data = flatten_json(lesson_data)
+            filename = f"{data.get('Teacher','Teacher')}_{data.get('WeekNumber','Week')}_Lesson_Plan.docx"
 
-    replace_placeholders(document, flat_data)
+            st.success("✅ Lesson plan generated successfully.")
 
-    # Save output
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".docx") as output:
-        document.save(output.name)
-        output_path = output.name
+            st.download_button(
+                "📥 Download Word File",
+                data=buffer,
+                file_name=filename,
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                use_container_width=True
+            )
 
-    with open(output_path, "rb") as f:
-        st.download_button(
-            "⬇ Download Completed Lesson Plan",
-            data=f,
-            file_name="Weekly_Lesson_Plan.docx",
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        )
-
-    st.success("Lesson plan generated successfully.")
+        except json.JSONDecodeError:
+            st.error("Invalid JSON format.")
+        except Exception as e:
+            st.error(str(e))
